@@ -1,24 +1,32 @@
 from tkinter import *
 
+
 formule = "" 
 
 def click(num): 
-
     global formule 
     formule = formule + str(num) 
     equation.set(formule) 
 
+
 def equalclick(): 
-    try: 
-        global formule 
-
-        result = str(eval(formule)) 
-        equation.set(result) 
+    try:
+        global formule
+        result = str(evaluate_expression(formule))
+        equation.set(result)
         formule = result
+    except Exception as e:
+        equation.set(" erreur ")
+        formule = ""
 
-    except: 
-        equation.set(" error ") 
-        formule = "" 
+def evaluate_expression(expression):
+    operators = set("+-*/")
+    for char in expression:
+        if char.isalpha() or char.isalnum() or char in operators:
+            continue
+        else:
+            raise ValueError("Caractère invalid dans cette expression")
+    return eval(expression)
 
 def effacer(): 
     global formule 
